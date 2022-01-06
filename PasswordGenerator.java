@@ -21,7 +21,7 @@ public class Main {
             int d = scanner.nextInt();
             boolean isChar = d == 1;
             if ((isChar || isCapLetter || isLowLetter || isNum) && length > 4) {
-                generatePassword(length, isNum, isLowLetter, isCapLetter, isChar);
+                System.out.println(generatePassword(length, isNum, isLowLetter, isCapLetter, isChar));
                 boo1 = false;
             } else if (length < 4) {
                 System.out.println("Please make your password longer than 4!");
@@ -32,7 +32,7 @@ public class Main {
     }
 
 
-    public static void generatePassword(int length, boolean isNum, boolean isLowLetter, boolean isCapLetter, boolean isChar) {
+    public static String generatePassword(int length, boolean isNum, boolean isLowLetter, boolean isCapLetter, boolean isChar) {
         int k = 0;
         if (isNum) {
             k++;
@@ -150,7 +150,11 @@ public class Main {
                 }
             }
         }
-        checker(passwordArray, isChar, isLowLetter, isCapLetter, isNum, length);
+        boolean boo1 = checker(passwordArray, isChar, isLowLetter, isCapLetter, isNum);
+        if (!boo1){
+            generatePassword(length,isNum,isLowLetter,isCapLetter,isChar);
+        }
+        return String.valueOf(passwordArray);
     }
     public static char numberGenerator() {
         return (char) (Math.random() * 10 + 48);
@@ -166,34 +170,31 @@ public class Main {
         int randomIndex = (int)(Math.random() * 4);
         return charArray[randomIndex];
     }
-    public static void checker(char[] array,boolean isChar,boolean isLowLetter,boolean isCapLetter,boolean isNum,int length){
+    public static boolean checker(char[] array,boolean isChar,boolean isLowLetter,boolean isCapLetter,boolean isNum){
         if (isNum) {
             if (!containsNumber(array)){
-                generatePassword(length,isNum,isLowLetter,isCapLetter,isChar);
+                return false;
             }
         }
         if (isLowLetter){
             if (!containsLowercaseLetter(array)){
-                generatePassword(length,isNum,isLowLetter,isCapLetter,isChar);
+                return false;
             }
         }
         if (isCapLetter){
             if (!containsUpperCaseLetter(array)){
-                generatePassword(length,isNum,isLowLetter,isCapLetter,isChar);
+                return false;
             }
         }
         if (isChar){
-            if (!containsCharacter(array)){
-                generatePassword(length,isNum,isLowLetter,isCapLetter,isChar);
-            }
+            return containsCharacter(array);
         }
-        System.out.println(String.valueOf(array));
-
+        return true;
     }
     public static boolean containsNumber(char[] array){
-        for (int i = 0; i < array.length; i++){
-            for (int k = 48; k < 58; k++){
-                if ((int) array[i] == k){
+        for (char c : array) {
+            for (int k = 48; k < 58; k++) {
+                if ((int) c == k) {
                     return true;
                 }
             }
@@ -201,9 +202,9 @@ public class Main {
         return false;
     }
     public static boolean containsLowercaseLetter(char[] array){
-        for (int i = 0; i < array.length; i++){
-            for (int k = 97; k < 123; k++){
-                if ((int) array[i] == k){
+        for (char c : array) {
+            for (int k = 97; k < 123; k++) {
+                if ((int) c == k) {
                     return true;
                 }
             }
@@ -211,9 +212,9 @@ public class Main {
         return false;
     }
     public static boolean containsUpperCaseLetter(char[] array){
-        for (int i = 0; i < array.length; i++){
-            for (int k = 65; k < 91; k++){
-                if ((int) array[i] == k){
+        for (char c : array) {
+            for (int k = 65; k < 91; k++) {
+                if ((int) c == k) {
                     return true;
                 }
             }
@@ -221,14 +222,14 @@ public class Main {
         return false;
     }
     public static boolean containsCharacter(char[] array){
-        for (int i = 0; i < array.length; i++){
-            if (array[i] == '.'){
+        for (char c : array) {
+            if (c == '.') {
                 return true;
-            } else if (array[i] == ','){
+            } else if (c == ',') {
                 return true;
-            } else if (array[i] == '-'){
+            } else if (c == '-') {
                 return true;
-            } else if (array[i] == '_'){
+            } else if (c == '_') {
                 return true;
             }
         }
